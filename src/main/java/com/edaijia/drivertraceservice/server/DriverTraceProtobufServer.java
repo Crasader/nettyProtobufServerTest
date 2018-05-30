@@ -17,6 +17,7 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by tianhong on 2018/5/4.
@@ -65,6 +67,7 @@ public class DriverTraceProtobufServer {
                             //ch.pipeline().addLast(new ProtobufDecoder(DriverTrace.DriverTraceMsg.getDefaultInstance()));
                             //ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             //ch.pipeline().addLast(new ProtobufEncoder());
+                            ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.MINUTES));
                             ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new StringEncoder());
                             ch.pipeline().addLast(new ProtobufServerHandler());
@@ -142,29 +145,30 @@ public class DriverTraceProtobufServer {
 //                }
 //            }
 //        }).start();
-        //监控服务端channel
-//        new Thread(new Runnable() {
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        Thread.sleep(5 * 1000);
-//                    } catch (InterruptedException e) {
-//                    }
-//
-//                    for (String channelKey : ChannelManager.channelMap.keySet()) {
-//                        Channel channel = ChannelManager.channelMap.get(channelKey);
-//                        if (channel != null) {
-//                            if (!channel.isOpen()) {
-//                                ChannelManager.channelMap.remove(channelKey);
-//                            } else {
+//        监控服务端channel
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(5 * 1000);
+                    } catch (InterruptedException e) {
+                    }
+
+                    for (String channelKey : ChannelManager.channelMap.keySet()) {
+                        Channel channel = ChannelManager.channelMap.get(channelKey);
+                        if (channel != null) {
+                            if (!channel.isOpen()) {
+                                ChannelManager.channelMap.remove(channelKey);
+                            } else {
 //                                log.info("server channel {} isRegistered {} |isActive {} |isOpen {} |isWritable {} : ", channelKey, channel.isRegistered(), channel.isActive(), channel.isOpen(), channel.isWritable());
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }).start();
+                            }
+
+                        }
+                    }
+                    log.info("channel size {}", ChannelManager.channelMap.size());
+                }
+            }
+        }).start();
     }
 
     @PreDestroy

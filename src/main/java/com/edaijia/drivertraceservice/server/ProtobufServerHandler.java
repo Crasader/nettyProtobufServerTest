@@ -31,7 +31,7 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
                 //设置环境变量，写入kafka
                 //MqProducer.send(MqTopics.DRIVER_LOCATION_NEW, MqTopics.DRIVER_LOCATION_NEW.getTopic(), req.toString());
                 log.info("receive DriverTraceMsg size: {}", req.getPointCount());
-                log.info("msg 16hex str:{}", Hex.encodeHex(req.toByteArray()));
+                log.info("msg 16hex str:{}", new String(Hex.encodeHex(req.toByteArray())));
                 //todo 因为逻辑比较简单，不必要加线程池
             }
         } catch (Exception e) {

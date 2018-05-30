@@ -12,6 +12,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
@@ -59,10 +60,11 @@ public class DriverTraceProtobufServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                            ch.pipeline().addLast(new ProtobufDecoder(DriverTrace.DriverTraceMsg.getDefaultInstance()));
-                            ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
-                            ch.pipeline().addLast(new ProtobufEncoder());
+                            //ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
+                            //ch.pipeline().addLast(new ProtobufDecoder(DriverTrace.DriverTraceMsg.getDefaultInstance()));
+                            //ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
+                            //ch.pipeline().addLast(new ProtobufEncoder());
+                            ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new ProtobufServerHandler());
                         }
                     });

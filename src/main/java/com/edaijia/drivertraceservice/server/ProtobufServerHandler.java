@@ -19,21 +19,25 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
-            DriverTrace.DriverTraceMsg req = (DriverTrace.DriverTraceMsg) msg;
+            log.info("msg {}", msg.toString());
+            //DriverTrace.DriverTraceMsg req = (DriverTrace.DriverTraceMsg) msg;
             Channel channel = ctx.channel();
-            if (!ChannelManager.channelMap.containsKey(req.getDriverId())) {
-                ChannelManager.channelMap.put(req.getDriverId(), channel);
+//            if (!ChannelManager.channelMap.containsKey(req.getDriverId())) {
+//                ChannelManager.channelMap.put(req.getDriverId(), channel);
+//            }
+            if (!ChannelManager.channelMap.containsKey(channel.id())) {
+                ChannelManager.channelMap.put(channel.id()+"", channel);
             }
             log.info("channel size {}", ChannelManager.channelMap.size());
             log.info("channelId {}, global {}, handler {}", channel.id(),ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
-            if (req.getPointCount() > 0) {
+            //if (req.getPointCount() > 0) {
                 //正常上传轨迹
                 //设置环境变量，写入kafka
                 //MqProducer.send(MqTopics.DRIVER_LOCATION_NEW, MqTopics.DRIVER_LOCATION_NEW.getTopic(), req.toString());
-                log.info("receive DriverTraceMsg size: {}", req.getPointCount());
-                log.info("msg 16hex str:{}", new String(Hex.encodeHex(req.toByteArray())));
+                //log.info("receive DriverTraceMsg size: {}", req.getPointCount());
+                //log.info("msg 16hex str:{}", new String(Hex.encodeHex(req.toByteArray())));
                 //todo 因为逻辑比较简单，不必要加线程池
-            }
+            //}
         } catch (Exception e) {
             log.error("ProtobufServerHandler channelRead DriverTraceMsg error", e);
         } finally {

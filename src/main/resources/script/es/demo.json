@@ -1,0 +1,31 @@
+PUT demo_v1{ #索引名
+"mappings": {
+"demo_type": {  #类型名
+"dynamic": "strict", #不允许插入没声明过的字段
+"_all": {
+"enabled": false  #禁止es自动建立_all字段
+},
+"properties": {
+"id": {
+"type": "long"  #mysql里的id字段，和es无关，es的叫_id, keyword是精确匹配的字符串类型
+},
+"userName": {
+"type": "keyword"
+},
+"title": {
+"type": "text"   #需要模糊查询的字符串类型，会被es自动分词，默认使用ik
+},
+"createTime": {
+"type": "long"
+}
+}
+}
+},
+#索引级别的设置
+"settings": {
+"number_of_shards": 1, #主分片数，es默认是5片，如果索引数据量预计不会太大，1个主分片有利于提高索引写入速度
+"number_of_replicas": 0, #副本分片数，es默认是3片，如果es只是拿来做一个mysql的备份，不考虑数据的高可用可设置1片，以提高没有分片建的查询速度
+"refresh_interval": "1s", #默认写入到es后多久可被搜索，时间越短，实时性越高，相反写入速度越低；可在数据初始化前关闭（设置为-1或很大的值），初始化后再打开
+"max_result_window": "2147483647" # es为了避免深度分页问题，默认form+size不能超过10000，否则会抛出异常，这里设置很大的值来避免10000的上限
+}
+}

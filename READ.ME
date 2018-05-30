@@ -1,0 +1,4 @@
+# java  -Dspring.application.name=driverTraceService -Dspring.profiles.active=test -jar driverTraceService.jar
+# curl http://127.0.0.1:9527/tcp/channel/info
+# curl http://127.0.0.1:9527/push/driver -F driverId=bj9999 -F title='test push' -F  type=0 -F message='蒸蒸日上'
+# sh -x springboot.sh /data/driverTraceTcpProtoBufReportService/project_git/driverTraceService/target/driverTraceService.jar status

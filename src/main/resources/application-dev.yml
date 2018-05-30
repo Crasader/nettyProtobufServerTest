@@ -1,0 +1,83 @@
+spring:
+  boot:
+    admin:
+      client:
+        prefer-ip: true
+      url: http://127.0.0.1:17601/app-admin
+  sleuth:
+    enabled: true
+    scheduled:
+      enabled: false
+    async:
+      enabled: false
+      configurer:
+        enabled: false
+    integration:
+      enabled: false
+    zuul:
+      enabled: false
+    web:
+      #接收的那些请求不会trace,注意是正则
+      skip-pattern: /v2/api-docs.*|/api-docs.*|/error.*|/swagger.*|.*\.png|.*\.css|.*\.js|.*\.html|/favicon.ico|/hystrix.stream
+      client:
+        #发出去的那些请求不会trace,注意是以prefix开始的uri,中间用,分隔
+        skip-uri-prefix: /app-admin
+    sampler:
+      #采样比率,1所有请求都trace,0.1百分之十的请求会trace
+      percentage: 1
+  zipkin:
+    base-url: http://127.0.0.1:17601
+logging:
+  config: classpath:log4j2-dev.xml
+
+druid:
+  initialSize: 1
+  minIdle: 1
+  maxActive: 20
+  maxWait: 3000
+  useUnfairLock: true
+  timeBetweenEvictionRunsMillis: 60000
+  minEvictableIdleTimeMillis: 300000
+  poolPreparedStatements: false
+  maxPoolPreparedStatementPerConnectionSize: 50
+  validationQuery: SELECT 1
+  testWhileIdle: true
+  testOnBorrow: false
+  testOnReturn: false
+
+dataSource:
+  testDbMaster:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://121.40.43.10:3306/dbtest1?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false
+    username: edaijia
+    password: XpMfGYWFbAvaYQyb
+
+redis:
+  key:
+    prefix: ${spring.application.name}
+    maxLength: 80
+  hostName: 172.16.170.70
+  password:
+  defaultDbIndex: 0
+  port: 6379
+  timeout: 1000
+  pool:
+    maxIdel: 100
+    maxTotal: 200
+    minIdel: 10
+    maxWaitMillis: 2000
+
+elasticsearch:
+  cluster-name: es-dev
+  cluster-nodes: 172.16.170.72:9222,172.16.170.71:9222,172.16.170.72:9222
+
+netty:
+  boss:
+    thread-count: 2
+  worker:
+    thread-count: 2
+  tcp:
+    port: 60000
+  so:
+    keepalive: true
+    backlog: 100

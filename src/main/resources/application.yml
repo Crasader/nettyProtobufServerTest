@@ -1,0 +1,19 @@
+server:
+  port: 9527
+
+spring:
+  profiles:
+    active: test
+
+info:
+    build:
+      arstifact: "@project.artifactId@"
+      name: "@project.name@"
+      description: "@project.description@"
+      version: "@project.version@"
+
+management:
+  security:
+    enabled: false
+  #spring boot management的缩写
+  context-path: /sbm

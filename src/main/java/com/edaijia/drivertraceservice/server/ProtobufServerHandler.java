@@ -25,7 +25,7 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
                 ChannelManager.channelMap.put(req.getDriverId(), channel);
             }
             log.info("channel size {}", ChannelManager.channelMap.size());
-            log.info("global {}, handler {}", ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
+            log.info("channelId {}, global {}, handler {}", ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet(),channel.id());
             if (req.getPointCount() > 0) {
                 //正常上传轨迹
                 //设置环境变量，写入kafka
@@ -45,6 +45,7 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error("ProtobufServerHandler exceptionCaught", cause);
         //发生异常，关闭链路
+        //客户端主动关闭从这里感知到
         ctx.close();
     }
 

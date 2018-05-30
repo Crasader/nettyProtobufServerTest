@@ -30,6 +30,7 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
             }
             log.info("channel size {}", ChannelManager.channelMap.size());
             log.info("channelId {}, global {}, handler {}", channel.id(),ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
+            ctx.writeAndFlush("你也hao");
             //if (req.getPointCount() > 0) {
                 //正常上传轨迹
                 //设置环境变量，写入kafka

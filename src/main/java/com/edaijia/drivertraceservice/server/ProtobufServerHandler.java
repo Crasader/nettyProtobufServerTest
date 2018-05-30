@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
+    //每个channel私有的
     public AtomicLong HANDLE_RECEIVE_COUNT = new AtomicLong(0);
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

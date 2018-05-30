@@ -7,14 +7,15 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Created by tianhong on 2018/5/11.
  */
 @Slf4j
 public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
-
-
+    public AtomicLong HANDLE_RECEIVE_COUNT = new AtomicLong(0);
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
@@ -23,11 +24,13 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
             if (!ChannelManager.channelMap.containsKey(req.getDriverId())) {
                 ChannelManager.channelMap.put(req.getDriverId(), channel);
             }
+            log.info("channel size {}, receive DriverTraceMsg:\n {}", ChannelManager.channelMap.size(), req.toString());
+            log.info("global {}, handler {}", ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
             if (req.getPointCount() > 0) {
                 //正常上传轨迹
                 //设置环境变量，写入kafka
                 //MqProducer.send(MqTopics.DRIVER_LOCATION_NEW, MqTopics.DRIVER_LOCATION_NEW.getTopic(), req.toString());
-                log.info("receive DriverTraceMsg:\n {}", req.toString());
+                log.info("receive DriverTraceMsg size: {}", req.getPointCount());
                 //todo 因为逻辑比较简单，不必要加线程池
             }
         } catch (Exception e) {

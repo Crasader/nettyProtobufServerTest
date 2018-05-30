@@ -109,58 +109,58 @@ public class DriverTraceProtobufServer {
             }
         }).start();
         //发送心跳
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    log.info("-----------TcpHeartBeatThread-----------");
-                    for (String driverId : ChannelManager.channelMap.keySet()) {
-                        Channel channel = ChannelManager.channelMap.get(driverId);
-                        if (channel != null && channel.isOpen()) {
-                            ParkPushMsg.ParkMsg.Builder parkMsgBuilder = ParkPushMsg.ParkMsg.newBuilder();
-                            parkMsgBuilder.setResponseId(UUID.randomUUID().toString());
-                            parkMsgBuilder.setTitle("heart beat");
-                            parkMsgBuilder.setMessage("hi " + driverId);
-                            parkMsgBuilder.setType(ParkMsgType.TEXT_MSG.ordinal() + "");
-                            ChannelFuture channelFuture = channel.writeAndFlush(parkMsgBuilder.build());
-                            channelFuture.addListener(new ChannelFutureListener() {
-                                public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                                    log.info(Thread.currentThread().getName() + " " + driverId + " heart beat success!");
-                                }
-                            });
-                        }
-                    }
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    log.info("-----------TcpHeartBeatThread-----------");
+//                    for (String driverId : ChannelManager.channelMap.keySet()) {
+//                        Channel channel = ChannelManager.channelMap.get(driverId);
+//                        if (channel != null && channel.isOpen()) {
+//                            ParkPushMsg.ParkMsg.Builder parkMsgBuilder = ParkPushMsg.ParkMsg.newBuilder();
+//                            parkMsgBuilder.setResponseId(UUID.randomUUID().toString());
+//                            parkMsgBuilder.setTitle("heart beat");
+//                            parkMsgBuilder.setMessage("hi " + driverId);
+//                            parkMsgBuilder.setType(ParkMsgType.TEXT_MSG.ordinal() + "");
+//                            ChannelFuture channelFuture = channel.writeAndFlush(parkMsgBuilder.build());
+//                            channelFuture.addListener(new ChannelFutureListener() {
+//                                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+//                                    log.info(Thread.currentThread().getName() + " " + driverId + " heart beat success!");
+//                                }
+//                            });
+//                        }
+//                    }
+//                    try {
+//                        Thread.sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
         //监控服务端channel
-        new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(5 * 1000);
-                    } catch (InterruptedException e) {
-                    }
-
-                    for (String channelKey : ChannelManager.channelMap.keySet()) {
-                        Channel channel = ChannelManager.channelMap.get(channelKey);
-                        if (channel != null) {
-                            if (!channel.isOpen()) {
-                                ChannelManager.channelMap.remove(channelKey);
-                            } else {
-                                log.info("server channel {} isRegistered {} |isActive {} |isOpen {} |isWritable {} : ", channelKey, channel.isRegistered(), channel.isActive(), channel.isOpen(), channel.isWritable());
-                            }
-
-                        }
-                    }
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(5 * 1000);
+//                    } catch (InterruptedException e) {
+//                    }
+//
+//                    for (String channelKey : ChannelManager.channelMap.keySet()) {
+//                        Channel channel = ChannelManager.channelMap.get(channelKey);
+//                        if (channel != null) {
+//                            if (!channel.isOpen()) {
+//                                ChannelManager.channelMap.remove(channelKey);
+//                            } else {
+//                                log.info("server channel {} isRegistered {} |isActive {} |isOpen {} |isWritable {} : ", channelKey, channel.isRegistered(), channel.isActive(), channel.isOpen(), channel.isWritable());
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
+//        }).start();
     }
 
     @PreDestroy

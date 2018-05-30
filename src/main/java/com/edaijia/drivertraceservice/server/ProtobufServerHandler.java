@@ -1,7 +1,6 @@
 package com.edaijia.drivertraceservice.server;
 
 import com.edaijia.drivertraceservice.domain.protobuf.DriverTrace;
-import com.edaijia.drivertraceservice.service.OrderPositionService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -14,11 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
-    private OrderPositionService orderPositionService;
-
-    public ProtobufServerHandler(OrderPositionService orderPositionService) {
-        this.orderPositionService = orderPositionService;
-    }
 
 
     @Override
@@ -35,7 +29,6 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
                 //MqProducer.send(MqTopics.DRIVER_LOCATION_NEW, MqTopics.DRIVER_LOCATION_NEW.getTopic(), req.toString());
                 log.info("receive DriverTraceMsg:\n {}", req.toString());
                 //todo 因为逻辑比较简单，不必要加线程池
-                orderPositionService.saveOrderPosition(req);
             }
         } catch (Exception e) {
             log.error("ProtobufServerHandler channelRead DriverTraceMsg error", e);

@@ -4,6 +4,7 @@ import com.edaijia.drivertraceservice.server.ChannelManager;
 import io.netty.channel.Channel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"2.DemoApi"})
 @RestController
 @RequestMapping(value = "/tcp")
+@Slf4j
 public class DemoController {
 
 

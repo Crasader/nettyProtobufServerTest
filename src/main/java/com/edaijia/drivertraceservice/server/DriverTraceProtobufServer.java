@@ -3,7 +3,6 @@ package com.edaijia.drivertraceservice.server;
 import com.edaijia.drivertraceservice.domain.ParkMsgType;
 import com.edaijia.drivertraceservice.domain.protobuf.DriverTrace;
 import com.edaijia.drivertraceservice.domain.protobuf.ParkPushMsg;
-import com.edaijia.drivertraceservice.service.OrderPositionService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,8 +14,8 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +44,6 @@ public class DriverTraceProtobufServer {
     @Value("${netty.so.backlog}")
     private int soBacklog;
 
-    @Autowired
-    private OrderPositionService orderPositionService;
 
     private void bind(int port) throws Exception {
         int cpuCount = Runtime.getRuntime().availableProcessors();
@@ -66,7 +63,7 @@ public class DriverTraceProtobufServer {
                             ch.pipeline().addLast(new ProtobufDecoder(DriverTrace.DriverTraceMsg.getDefaultInstance()));
                             ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             ch.pipeline().addLast(new ProtobufEncoder());
-                            ch.pipeline().addLast(new ProtobufServerHandler(orderPositionService));
+                            ch.pipeline().addLast(new ProtobufServerHandler());
                         }
                     });
 

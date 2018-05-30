@@ -36,12 +36,12 @@ start(){
   if [ $? -eq "0" ]; then
     echo "${APP_NAME} is already running. pid=${pid} ."
   else
-    cd /data/driverTraceTcpProtoBufReportService/project_git/driverTraceService/
+    cd /data/soft/git/nettyProtobufServerTest/
     git checkout master
     git pull
     mvn clean install -U -Dmaven.test.skip=true
     echo '打包完成'
-    nohup java  -Dspring.application.name=driverTraceService -Dspring.profiles.active=test  -jar $APP_NAME > /dev/null 2>&1 &
+    nohup java  -Dspring.application.name=nettyProtobufServerTest -Dspring.profiles.active=test  -jar $APP_NAME > /dev/null 2>&1 &
   fi
 }
 

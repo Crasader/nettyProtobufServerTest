@@ -4,7 +4,7 @@ SCRIPT=$0
 APP_NAME=$1
 #获取操作符
 OPERATOR=$2
-LOG_DIR=/data/logs/edaijia/${APP_NAME}
+LOG_DIR=/data/logs/edaijia
 
 
 #jvm参数-堆

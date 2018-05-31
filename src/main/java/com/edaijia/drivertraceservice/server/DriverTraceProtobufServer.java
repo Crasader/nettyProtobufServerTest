@@ -67,7 +67,7 @@ public class DriverTraceProtobufServer {
                             //ch.pipeline().addLast(new ProtobufDecoder(DriverTrace.DriverTraceMsg.getDefaultInstance()));
                             //ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             //ch.pipeline().addLast(new ProtobufEncoder());
-                            ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.MINUTES));
+//                            ch.pipeline().addLast(new IdleStateHandler(30, 0, 0, TimeUnit.MINUTES));
                             ch.pipeline().addLast(new StringDecoder());
                             ch.pipeline().addLast(new StringEncoder());
                             ch.pipeline().addLast(new ProtobufServerHandler());

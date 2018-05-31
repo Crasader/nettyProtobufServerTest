@@ -48,21 +48,21 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-    @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        log.error(Thread.currentThread().getName() + " 已经30分钟未收到客户端的消息了！-IdleStateHandlerstep1");
-        if (evt instanceof IdleStateEvent) {
-            IdleStateEvent event = (IdleStateEvent) evt;
-            if (event.state() == IdleState.READER_IDLE) {
-                log.error(Thread.currentThread().getName() + " 关闭这个不活跃通道!-IdleStateHandlerstep2");
-                ctx.channel().close();
-            }
-        } else {
-            //客户端主动断的时候会走到这
-            log.error(Thread.currentThread().getName() + " 客户端主动断了！-IdleStateHandlerstep3");
-            super.userEventTriggered(ctx, evt);
-        }
-    }
+//    @Override
+//    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+//        log.error(Thread.currentThread().getName() + " 已经30分钟未收到客户端的消息了！-IdleStateHandlerstep1");
+//        if (evt instanceof IdleStateEvent) {
+//            IdleStateEvent event = (IdleStateEvent) evt;
+//            if (event.state() == IdleState.READER_IDLE) {
+//                log.error(Thread.currentThread().getName() + " 关闭这个不活跃通道!-IdleStateHandlerstep2");
+//                ctx.channel().close();
+//            }
+//        } else {
+//            //客户端主动断的时候会走到这
+//            log.error(Thread.currentThread().getName() + " 客户端主动断了！-IdleStateHandlerstep3");
+//            super.userEventTriggered(ctx, evt);
+//        }
+//    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

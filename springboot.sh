@@ -8,7 +8,7 @@ LOG_DIR=/data/logs/edaijia/${APP_NAME}
 
 
 #jvm参数-堆
-JAVA_OPTS="-server -Xms4096m -Xmx4096m -Xss256k -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m"
+JAVA_OPTS="-server -Xms3550m -Xmx3550m -Xmn2g -Xss256k -XX:NewRatio=4  -XX:SurvivorRatio=4 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m"
 #jvm参数-GC
 JAVA_OPTS=" ${JAVA_OPTS} -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly"
 #jvm参数-优化

@@ -22,7 +22,7 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
-            //log.info("msg {}", msg.toString());
+            log.info("msg {}", msg.toString());
             //DriverTrace.DriverTraceMsg req = (DriverTrace.DriverTraceMsg) msg;
             Channel channel = ctx.channel();
 //            if (!ChannelManager.channelMap.containsKey(req.getDriverId())) {

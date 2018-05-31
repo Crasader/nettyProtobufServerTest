@@ -57,7 +57,7 @@ start(){
     git pull
     mvn clean install -U -Dmaven.test.skip=true
     echo '打包完成'
-    nohup java  -Dspring.application.name=driverTraceService -Dspring.profiles.active=test  -jar $APP_NAME > /dev/null 2>&1 &
+    nohup java  ${JAVA_OPTS} -Dspring.application.name=driverTraceService -Dspring.profiles.active=test  -jar $APP_NAME > /dev/null 2>&1 &
   fi
 }
 

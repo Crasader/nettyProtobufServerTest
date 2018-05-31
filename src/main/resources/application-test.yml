@@ -35,9 +35,9 @@ netty:
   boss:
     thread-count: 2
   worker:
-    thread-count: 2
+    thread-count: 14
   tcp:
     port: 60000
   so:
     keepalive: true
-    backlog: 100
+    backlog: 256

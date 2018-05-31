@@ -4,6 +4,22 @@ SCRIPT=$0
 APP_NAME=$1
 #获取操作符
 OPERATOR=$2
+LOG_DIR=/data/logs/edaijia/${APP_NAME}
+
+
+#jvm参数-堆
+JAVA_OPTS="-server -Xms4096m -Xmx4096m -Xss256k -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m"
+#jvm参数-GC
+JAVA_OPTS=" ${JAVA_OPTS} -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly"
+#jvm参数-优化
+JAVA_OPTS=" ${JAVA_OPTS} -XX:+AlwaysPreTouch -Djava.awt.headless=true -XX:-OmitStackTraceInFastThrow"
+#jvm参数-内存溢出
+JAVA_OPTS=" ${JAVA_OPTS} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${LOG_DIR}"
+#jvm参数-GC LOG
+JAVA_OPTS=" ${JAVA_OPTS} -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -Xloggc:${LOG_DIR}/gc.log"
+
+
+
 
 usage() {
     echo "Usage: .   $SCRIPT [app_name] [start|stop|restart|status]"

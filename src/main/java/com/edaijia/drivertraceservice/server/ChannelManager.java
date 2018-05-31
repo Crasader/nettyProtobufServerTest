@@ -11,5 +11,5 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class ChannelManager {
     public static volatile Map<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
-    public static AtomicLong RECEIVE_COUNT = new AtomicLong(0);
+    //public static AtomicLong RECEIVE_COUNT = new AtomicLong(0);
 }

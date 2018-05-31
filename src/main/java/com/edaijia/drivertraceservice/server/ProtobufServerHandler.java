@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
     //每个channel私有的
-    public AtomicLong HANDLE_RECEIVE_COUNT = new AtomicLong(0);
+    //public AtomicLong HANDLE_RECEIVE_COUNT = new AtomicLong(0);
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
@@ -29,8 +29,8 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 //                ChannelManager.channelMap.put(req.getDriverId(), channel);
 //            }
 
-            log.info("channel size {}", ChannelManager.channelMap.size());
-            log.info("channelId {}, global {}, handler {}", channel.id(),ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
+            //log.info("channel size {}", ChannelManager.channelMap.size());
+            //log.info("channelId {}, global {}, handler {}", channel.id(),ChannelManager.RECEIVE_COUNT.incrementAndGet(),HANDLE_RECEIVE_COUNT.incrementAndGet());
             ctx.writeAndFlush("你也hao");
             //if (req.getPointCount() > 0) {
                 //正常上传轨迹
@@ -48,21 +48,21 @@ public class ProtobufServerHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-//    @Override
-//    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-//        log.error(Thread.currentThread().getName() + " 已经30分钟未收到客户端的消息了！-IdleStateHandlerstep1");
-//        if (evt instanceof IdleStateEvent) {
-//            IdleStateEvent event = (IdleStateEvent) evt;
-//            if (event.state() == IdleState.READER_IDLE) {
-//                log.error(Thread.currentThread().getName() + " 关闭这个不活跃通道!-IdleStateHandlerstep2");
-//                ctx.channel().close();
-//            }
-//        } else {
-//            //客户端主动断的时候会走到这
-//            log.error(Thread.currentThread().getName() + " 客户端主动断了！-IdleStateHandlerstep3");
-//            super.userEventTriggered(ctx, evt);
-//        }
-//    }
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        log.error(Thread.currentThread().getName() + " 已经30分钟未收到客户端的消息了！-IdleStateHandlerstep1");
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent event = (IdleStateEvent) evt;
+            if (event.state() == IdleState.READER_IDLE) {
+                log.error(Thread.currentThread().getName() + " 关闭这个不活跃通道!-IdleStateHandlerstep2");
+                ctx.channel().close();
+            }
+        } else {
+            //客户端主动断的时候会走到这
+            log.error(Thread.currentThread().getName() + " 客户端主动断了！-IdleStateHandlerstep3");
+            super.userEventTriggered(ctx, evt);
+        }
+    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
